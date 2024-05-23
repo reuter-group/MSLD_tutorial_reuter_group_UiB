@@ -1,4 +1,4 @@
-# MSLD_tutorial
+# Mulltisite \ll Dynamics
 1. **Hardware requirements**  
    Linux system with NVIDIA GPU  
 2. **Software requirements**  
