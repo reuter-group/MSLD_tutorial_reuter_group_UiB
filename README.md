@@ -34,12 +34,13 @@
    ```conda activate charmm```  
    - install mamba within the conda environment to make the next steps fast   
    ```conda install conda-forge::mamba```
-   - check the version of NVIDIA drivers  
-   ```nvidia-smi ```
-   - install cuda version that is compatible with your NVIDIA drivers  
-      ```mamba install -y -c "nvidia/label/cuda-x.y.y" cuda```  
-   - use GCC version that is recommended for your cuda version  
-        ```mamba install -y -c conda-forge gcc==X.X gxx==X.X gfortran==X.X ```  
+   - Please see more info on [pyCHARMM workshop's page](https://github.com/BrooksResearchGroup-UM/pyCHARMM-Workshop/tree/main/0Install_Tools/Linux#1a-create-a-conda-environment-manually) regarding cuda and GCC  
+      - check the version of NVIDIA drivers  
+      ```nvidia-smi ```  
+      - install cuda version that is compatible with your NVIDIA drivers  
+         ```mamba install -y -c "nvidia/label/cuda-x.y.y" cuda```  
+      - use GCC version that is recommended for your cuda version  
+        ```mamba install -y -c conda-forge gcc==X.X gxx==X.X gfortran==X.X ```    
    - a few more packages through conda  
    ```mamba install -y -c conda-forge make cmake binutils fftw openmpi openmm sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pymol-open-source```  
 
