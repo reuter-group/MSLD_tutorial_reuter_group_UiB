@@ -1,6 +1,7 @@
 # Multisite &lambda; Dynamics
 1. **Hardware requirements**  
    Linux system with NVIDIA GPU
+   !! **no** root or superuser privileges required !!  
    
 3. **Software requirements**  
    CHARMM program (download here: https://charmm.chemistry.harvard.edu/request_license.php?version=free)  
