@@ -39,5 +39,17 @@
    - install cuda version that is compatible with your NVIDIA drivers  
    ```mamba install -y -c "nvidia/label/cuda-x.y.y" cuda```  
    ```mamba install -y -c conda-forge make cmake binutils fftw openmpi openmm sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pymol-open-source```  
-   ```mamba install -y -c conda-forge gcc==X.X gxx==X.X gfortran==X.X ```    
-   3. **Compile CHARMM**
+   ```mamba install -y -c conda-forge gcc==X.X gxx==X.X gfortran==X.X ```
+
+   2. **Compile CHARMM**
+   - active your conda environment
+     ```conda activate charmm```  
+   - untar CHARMM  
+     ```tar -xvf charmm.tgz```  
+     ```cd charmm```  
+     ```mkdir build_charmm ```  
+     ```cd build_charmm```  
+     ```../configure -u --with-blade --without-mkl```  
+     I'm using 8 cores (see next command)to compile/build charmm, you can use more cores eg. 10 or 20  or less eg 4.  
+     ```make -j 8 all```  
+**DONE**
