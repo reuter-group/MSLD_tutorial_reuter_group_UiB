@@ -21,6 +21,8 @@
    - [FEP analysis guidelines](https://doi.org/10.1007/s10822-015-9840-9)  
    - [Best practices FEP](https://livecomsjournal.org/index.php/livecoms/article/view/v2i1e18378)  
    - [MBAR](https://arxiv.org/abs/1704.00891)
+   - [charge changing mutations](https://pubs.acs.org/doi/10.1021/ct900565e)
+   - [charge changing mutations FEP+](https://doi.org/10.1016%2Fj.jmb.2019.02.003)
 
 4. **Github Resources - Charlie's group**
    - [ALF](https://github.com/RyanLeeHayes/ALF)
@@ -32,7 +34,7 @@
 ** You can follow the steps from the [pyCHARMM](https://github.com/BrooksResearchGroup-UM/pyCHARMM-Workshop/tree/main/0Install_Tools/Linux) workshop as well, below is just a part of the things that are on the pyCHARMM workshop page
 **
 
-   1. Install Conda and create a new environment  
+   1. Install **miniconda** and create a new environment  
    ```conda create --name charmm```  
    ```conda activate charmm```  
    - install mamba within the conda environment to make the next steps fast   
@@ -56,6 +58,6 @@
      ```mkdir build_charmm ```  
      ```cd build_charmm```  
      ```../configure -u --with-blade --without-mkl```  
-     I'm using 8 cores (see next command)to compile/build charmm, you can use more cores eg. 10 or 20  or less eg 4.  
+     I'm using 8 cores (see next command) to compile/build charmm, you can use more cores eg. 10 or 20  or less eg 1 or 4.  
      ```make -j 8 all```  
 **DONE**
