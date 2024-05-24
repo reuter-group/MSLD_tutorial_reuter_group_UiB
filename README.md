@@ -18,6 +18,9 @@
    - [msld_py_prep and charge corrections](https://doi.org/10.1021/acs.jcim.2c00047)
    - [MS&lambda;D benchmark paper](https://doi.org/10.1021/acs.jctc.0c00830)
    - [AMBER & OPLS in MS&lambda;D](https://doi.org/10.1021/acs.jcim.3c01949)
+   - [FEP analysis guidelines](https://doi.org/10.1007/s10822-015-9840-9)  
+   - [Best practices FEP](https://livecomsjournal.org/index.php/livecoms/article/view/v2i1e18378)  
+   - [MBAR](https://arxiv.org/abs/1704.00891)
 
 4. **Github Resources - Charlie's group**
    - [ALF](https://github.com/RyanLeeHayes/ALF)
