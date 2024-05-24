@@ -45,7 +45,7 @@
       - use GCC version that is recommended for your cuda version  
         ```mamba install -y -c conda-forge gcc==X.X gxx==X.X gfortran==X.X ```    
    - a few more packages through conda  
-   ```mamba install -y -c conda-forge make cmake binutils fftw openmpi openmm sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pymol-open-source```  
+   ```mamba install -y -c conda-forge make cmake binutils fftw openmpi openmm sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pymol-open-source pymbar```  
 
    2. **Compile CHARMM**
    - active your conda environment
