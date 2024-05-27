@@ -5,10 +5,11 @@
    
 2. **Software requirements**  
    [CHARMM program](https://charmm.chemistry.harvard.edu/request_license.php?version=free)  
-   [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)  
-   PyMOL
+   [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)   
+   PyMOL  
+   [MMTSB](https://github.com/mmtsb/toolset)  
 
-3. **References literature**
+4. **References literature**
    - [&lambda;D original paper](https://doi.org/10.1063/1.472109)
    - [MS&lambda;D paper](https://doi.org/10.1021/ct200444f)
    - [Adaptive Landscape Flattening (ALF)](https://doi.org/10.1021/acs.jpcb.6b09656)
@@ -24,7 +25,7 @@
    - [charge changing mutations](https://pubs.acs.org/doi/10.1021/ct900565e)
    - [charge changing mutations FEP+](https://doi.org/10.1016%2Fj.jmb.2019.02.003)
 
-4. **Github Resources**
+5. **Github Resources**
    - [ALF](https://github.com/RyanLeeHayes/ALF)
    - [pyCHARMM workshop](https://github.com/BrooksResearchGroup-UM/pyCHARMM-Workshop/tree/main)
    - [MS&lambda;D workshop](https://github.com/BrooksResearchGroup-UM/MSLD-Workshop)
