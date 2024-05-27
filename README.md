@@ -28,6 +28,8 @@
    - [ALF](https://github.com/RyanLeeHayes/ALF)
    - [pyCHARMM workshop](https://github.com/BrooksResearchGroup-UM/pyCHARMM-Workshop/tree/main)
    - [MS&lambda;D workshop](https://github.com/BrooksResearchGroup-UM/MSLD-Workshop)
+   - [protein tutorial](http://pmx.mpibpc.mpg.de/summerSchool2020_tutorial1/index.html)
+   - [precomputed mutation free energies](http://pmx.mpibpc.mpg.de/tripeptide.html)
 
    
  ## Compiling CHARMM ##
