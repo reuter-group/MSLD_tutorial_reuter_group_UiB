@@ -1,0 +1,49 @@
+PSF EXT CMAP XPLOR
+
+         2 !NTITLE
+* WRITE INDIVIDUAL PSF AND CRD FILES                                            
+*  DATE:    11/14/22     15: 9:35      CREATED BY USER: parveeng                
+
+         9 !NATOM
+         1 CL       1        CLA      CLA      CLA      -1.00000       35.4500           0
+         2 CL       2        CLA      CLA      CLA      -1.00000       35.4500           0
+         3 CL       3        CLA      CLA      CLA      -1.00000       35.4500           0
+         4 CL       4        CLA      CLA      CLA      -1.00000       35.4500           0
+         5 CL       5        CLA      CLA      CLA      -1.00000       35.4500           0
+         6 POT      1        POT      POT      POT       1.00000       39.0983           0
+         7 POT      2        POT      POT      POT       1.00000       39.0983           0
+         8 POT      3        POT      POT      POT       1.00000       39.0983           0
+         9 POT      4        POT      POT      POT       1.00000       39.0983           0
+
+         0 !NBOND: bonds
+
+
+         0 !NTHETA: angles
+
+
+         0 !NPHI: dihedrals
+
+
+         0 !NIMPHI: impropers
+
+
+         0 !NDON: donors
+
+
+         0 !NACC: acceptors
+
+
+         0 !NNB
+
+         0         0         0         0         0         0         0         0
+         0
+
+         9         0 !NGRP NST2
+         0         2         0         1         2         0         2         2         0
+         3         2         0         4         2         0         5         2         0
+         6         2         0         7         2         0         8         2         0
+
+         0         0 !NUMLP NUMLPH
+
+         0 !NCRTERM: cross-terms
+
