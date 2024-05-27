@@ -24,10 +24,11 @@
    - [charge changing mutations](https://pubs.acs.org/doi/10.1021/ct900565e)
    - [charge changing mutations FEP+](https://doi.org/10.1016%2Fj.jmb.2019.02.003)
 
-4. **Github Resources - Charlie's group**
+4. **Github Resources**
    - [ALF](https://github.com/RyanLeeHayes/ALF)
    - [pyCHARMM workshop](https://github.com/BrooksResearchGroup-UM/pyCHARMM-Workshop/tree/main)
    - [MS&lambda;D workshop](https://github.com/BrooksResearchGroup-UM/MSLD-Workshop)
+   - [protein ligand benchmark datasets](https://github.com/openforcefield/protein-ligand-benchmark)
    - [protein tutorial](http://pmx.mpibpc.mpg.de/summerSchool2020_tutorial1/index.html)
    - [precomputed mutation free energies](http://pmx.mpibpc.mpg.de/tripeptide.html)
 
