@@ -54,7 +54,7 @@
    ```mamba install -y -c conda-forge make cmake binutils fftw openmpi openmm sysroot_linux-64==2.17 readline==8.2 rdkit openbabel pymol-open-source pymbar```  
 
    2. **Compile CHARMM**
-   - active your conda environment
+   - active your conda environment  
      ```conda activate charmm```  
    - untar CHARMM  
      ```tar -xvf charmm.tgz```  
