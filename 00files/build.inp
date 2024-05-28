@@ -1,0 +1,29 @@
+* Run Segment Through CHARMM
+*
+
+prnlev 0
+! read topology and parameter files
+read rtf card name toppar/top_all36_prot.rtf
+read param card flex name toppar/par_all36m_prot.prm
+stream toppar/toppar_water_ions.str 
+prnlev 5
+
+! Read sequence from the PDB coordinate file
+read sequ pdb name @dir/@pdb.pdb
+
+generate @seq first none last none setup noangle nodihedral
+
+!bomlev -1
+read coor pdb resid name @dir/@pdb.pdb
+bomlev 0
+
+define fixed sele (.not. INIT) .and. (.not. hydrogen) end
+
+!Print heavy atoms with unknown coordinates
+coor print sele (.not. INIT) .and. (.not. hydrogen) end
+
+
+write psf card name @dir/@pdb.psf
+write coor card name @dir/@pdb.crd
+
+stop
