@@ -1,0 +1,11 @@
+#!/bin/bash
+
+python free_energy.py 10 . > cc.dat
+
+#while read p q
+#do
+
+#paste <(grep -i mbar protein/s1s"$p"_mbar.dat) <(grep -i mbar water/s1s"$p"_mbar.dat) -d ' ' | awk '{print $10, $23, $10-$23}'
+
+#done < <(cat ../combinations.txt)
+

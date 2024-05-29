@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+# Load CHARMM executable.
+CHARMMEXEC=/net/orinoco/pga043/CHARMM_47a2/charmm_47a2/build_opls/charmm
+
+# Get ith combination from combinations.txt
+END=`wc -l ../combinations.txt | awk '{print $1}'`
+for((i=1;i<=END;i++))
+do
+comb=`sed "${i}q;d" ../combinations.txt`
+comb=($comb)
+
+# Define substituents for each site
+sub1=${comb[0]}
+sub2=${comb[1]}
+
+echo "CHARMM executable is ${CHARMMEXEC}"
+echo "ligand combination is ${comb}"
+
+# Run minimization
+mpirun -np 1 -x omp_num_threads=1 --bind-to none --map-by node $CHARMMEXEC sub1=$sub1 sub2=$sub2 -i print_combo_ligands.inp # -o s1s${sub1}s2s${sub2}.out
+
+$CHARMMEXEC sub1=$sub1 sub2=$sub2 -i gen_rtf.inp
+
+done
+

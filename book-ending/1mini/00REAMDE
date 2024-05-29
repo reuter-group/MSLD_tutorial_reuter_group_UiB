@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cp ../../../ligands_prep/build.bergen/* .
+
+bash print_combo_ligs.sh
+
+#cd comboligs
+#./README
+
+

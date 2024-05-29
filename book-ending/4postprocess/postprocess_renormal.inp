@@ -1,0 +1,108 @@
+* CHARMM input file for QRN ligand simulation
+*
+
+! Generic Variables
+set builddir = ../3dynamics/@build
+set ligseg = lig
+set resnum = 1
+set size = @box
+set temp = 298.15
+
+!! Read in toppar stream file
+bomlev -2
+stream @builddir/toppar.str
+bomlev 0
+
+read rtf append card name ./@builddir/core.rtf
+read param flex append card name ./@builddir/full_ligand.prm
+
+bomlev -2
+read psf card name ../3dynamics/dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/minimized.psf 
+read coor card name ../3dynamics/dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/minimized.crd 
+bomlev 0
+
+!bomblev -2
+!auto angle dihe
+bomblev 0
+
+!! Create water box & periodic images
+crystal define cubic @box @box @box 90. 90. 90.
+crystal build cutoff 14 nope 0
+image byres xcen 0 ycen 0 zcen 0 sele resn tip3 .or. resn pot .or. resn cla .or. segid HETA end
+image byseg xcen 0 ycen 0 zcen 0 sele .not. ( resn tip3 .or. resn pot .or. resn cla .or. segid HETA ) end
+
+stream ../3dynamics/nbond_@{nbond}.str
+
+!  turn on faster options and set-up SHAKE
+!faster on
+
+!domdec gpu only dlb off ndir 1 1 1
+
+set echeck = echeck -1
+
+!======================================================
+open read unit 22 file name ../3dynamics/dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.dcd
+traj query unit 22
+set nfile = ?nfile
+set nunit = 1
+!================================================
+
+open unit 33 write card name ../3dynamics/dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/renormal.ener
+write title unit 33
+* time U_renormal
+*
+
+trajectory firstu 22 nunit @nunit !skip @skip !skip 1 begin 110000 stop 5000000 
+
+set frame = 1
+calc NTOT = 500 
+
+label loop
+traj read
+
+domdec gpu only dlb off ndir 1 1 1
+energy ! domdec trajectory
+!energy blade 
+echo @frame ?ENER
+
+write title unit 33
+* @frame ?ENER
+
+incr frame by 1
+if frame le @ntot goto loop
+
+
+!!----------------------------------------------------
+!! now postprocessing with original force field charges
+!!----------------------------------------------------
+
+trajectory firstu 22 nunit @nunit !skip @skip !skip 1 begin 110000 stop 5000000
+
+open unit 34 write card name ../3dynamics/dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/ff.ener
+write title unit 34
+* time U_FF
+*
+
+stream ../2gen_stream/s1s@{sub1}.s2s@{sub2}_crn2ff_qpert.str
+scalar charge show sele segid LIG show end
+scalar charge stat sele segid LIG show end
+set totalcharge = ?STOT
+
+set frame = 1 
+calc NTOT = 500 
+
+label loop1
+traj read
+
+domdec gpu only dlb off ndir 1 1 1
+energy ! domdec traj
+!energy blade
+echo @frame ?ENER
+
+write title unit 34
+* @frame ?ENER
+
+incr frame by 1
+if frame le @ntot goto loop1
+
+stop

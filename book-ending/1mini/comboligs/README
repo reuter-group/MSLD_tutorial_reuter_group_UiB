@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#bash pdb2mol2.sh
+
+# check all connectivities in pymol and if there is something wrong then 
+# change the mol2 file manually
+
+#bash mol22sdf.sh 
+
+while read i j
+do
+
+python get_crn_charges.py s1s"$i".s2s"$j".rtf
+
+done < <(cat ../../combinations.txt)

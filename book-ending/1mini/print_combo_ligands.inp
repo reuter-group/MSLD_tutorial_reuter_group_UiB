@@ -1,0 +1,66 @@
+* CHARMM input file for ligand energy in vacuum
+*
+
+! Generic Variables
+set builddir = .
+set ligseg = lig
+set resnum = 1
+
+bomblev -1
+
+!! Read in toppar stream file
+stream @builddir/toppar.str
+
+read rtf card name @builddir/core.rtf append
+read param flex card name @builddir/full_ligand.prm append
+
+!! Read coordinate and pdb file for ligand
+read sequ pdb name @builddir/core.pdb
+generate @ligseg setup
+read coor pdb resid name @builddir/core.pdb
+
+!! Hybrid Ligand Setup
+!! Read in the patch files
+read rtf append card name @builddir/site1_sub@{sub1}_pres.rtf
+read rtf append card name @builddir/site2_sub@{sub2}_pres.rtf
+ic generate
+
+patch p1_@{sub1} @ligseg @resnum setup
+read coor pdb resid name @builddir/site1_sub@{sub1}_frag.pdb
+ic param
+ic build
+
+patch p2_@{sub2} @ligseg @resnum setup
+read coor pdb resid name @builddir/site2_sub@{sub2}_frag.pdb
+ic param
+ic build
+
+!! Read in LP sites (if applicable)
+stream @builddir/lpsites.inp
+
+bomblev -2
+auto angle dihe
+bomblev 0
+
+print coor sele .not. init end
+
+!! (1) Do Minimization !!!!!!!!!!!!!!!!!
+!! set up energy parameters
+nbonds atom fswitch cdie eps 1 vdw vfswitch cutnb 14.0 cutim 14.0-
+    ctonnb 10.0 ctofnb 12.0 inbfrq -1 imgfrq -1
+
+!! minimize
+mini sd nstep 200 nprint 20 step 0.005
+
+write coor pdb card name comboligs/s1s@{sub1}.s2s@{sub2}.pdb
+*afermin pdb for s1s@{sub1}.s2s@{sub2} ligand
+*
+
+!write rtf card name comboligs/s1s@{sub1}.s2s@{sub2}.rtf
+!*rtf for s1s@{sub1}.s2s@{sub2} ligand
+!*
+
+!! gas phase energy
+energy
+
+stop

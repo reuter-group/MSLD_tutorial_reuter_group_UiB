@@ -1,0 +1,245 @@
+* CHARMM input file for QRN ligand simulation
+*
+
+!! Dynamics Specs
+set nsteps = 5000000
+
+! Generic Variables
+set builddir = water_prep
+set dtype = @{dtype}
+set size = 34.689902
+set temp = 298.15
+set ligseg = lig
+set resnum = 1
+
+bomblev -1
+
+!! Read in toppar stream file
+stream ./@builddir/toppar.str
+
+read rtf append card name ./@builddir/core.rtf
+read param flex append card name ./@builddir/full_ligand.prm
+
+!! Read coordinate and pdb file for ligand
+read sequ pdb name ./@builddir/core.pdb
+generate @ligseg setup
+read coor pdb resid name ./@builddir/core.pdb
+
+!! Hybrid Ligand Setup
+!! Read in the patch files
+read rtf append card name @builddir/site1_sub@{sub1}_pres.rtf
+read rtf append card name @builddir/site2_sub@{sub2}_pres.rtf
+ic generate
+
+patch p1_@{sub1} @ligseg @resnum setup
+read coor pdb resid name @builddir/site1_sub@{sub1}_frag.pdb
+ic param
+ic build
+
+patch p2_@{sub2} @ligseg @resnum setup
+read coor pdb resid name @builddir/site2_sub@{sub2}_frag.pdb
+ic param
+ic build
+
+!! Read in LP sites (if applicable)
+stream @builddir/lpsites.inp
+
+bomblev -2
+auto angle dihe
+bomblev 0
+
+!! Load Solvent
+read sequ pdb name @builddir/solvent.pdb
+generate WT00 first none last none setup noangl nodihe
+read coor pdb resid name @builddir/solvent.pdb
+
+!! !! Load ions
+
+
+print coor sele .not. init end
+bomlev 0
+
+!! Create water box & periodic images
+set cutoff = 11
+set ctofnb = 8
+set ctonnb = 7.5
+set kappa = 0.3308  ! Consistent with cutofnb and fftx,y,z
+calc cutim = @cutoff
+calc cutnb = @ctofnb + 2
+
+
+set  theta = 90.0
+! Dimension of a box
+coor stat
+Crystal define cubic @size @size @size @theta @theta @theta
+crystal build cutoff @cutim noper 0
+image byres xcen 0 ycen 0 zcen 0 sele resn tip3 .or. resn sod .or. resn pot .or. resn cla end
+image byseg xcen 0 ycen 0 zcen 0 sele .not. ( resn tip3 .or. resn sod .or. resn pot .or. resn cla ) end
+
+!! Copy main coords into comp set
+cons harm clear
+coor copy comp
+
+
+stream ./nbond_@{nbond}.str
+
+!  turn on faster options and set-up SHAKE
+faster on
+
+shake fast bonh para !tole 1.e-9 MXITer 2000 
+
+set echeck = echeck -1
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!  MINIMIZATION  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+cons harm abso force 10.0 mass select (segid PROT .or. segid LIG) end comp
+mini sd nstep 200 nprint 10 step 0.005
+
+
+! release restraints and minimize everything
+cons harm clear
+
+mini sd nstep 250 nprint 10 step 0.005                  !! Do min, Steepest-Decent
+
+write psf card name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/minimized.psf
+* after minimization psf
+*
+
+write coor card name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/minimized.crd
+* after minimization crd
+*
+
+write coor pdb form name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/minimized.pdb
+* after minimization pdb
+*
+bomblev 0
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!! DYNAMICS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+scalar fbeta set 10.0 sele all end
+
+domdec gpu only dlb off ndir 1 1 1
+set resttoken = start
+set iurest = -1
+set temp = 298.15 
+
+
+
+!!!!!!!!!!!!!!!!!!!!! Heating run of 200 ps !!!!!!!!!!!!!!!!!!!!!!
+open unit 21 write unform name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_heat.dcd
+open unit 22 write form name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_heat.res
+calc seed = @seed
+
+calc nwrite = int ( @nsteps / 10 )
+!!!!!!!!!!!!!!!!!!! NPT HEATING        !!!!!!!!!!!!!!!!!!!!!
+! Run dynamics in periodic box
+calc seed = @seed
+calc pmass = ?natom * 0.12
+dynamics cpt start -
+  iseed @seed @seed @seed @seed -
+  timestep 0.002 -      !!timestep interval
+  nstep  100000 -          !!no. of steps  (== 2 ns)
+  nprint 1000 -         !!freq of printout
+  iprfrq 1000 -         !!freq of calc avg/rms energy
+  nsavc 1000 -          !!freq of writing coordinates
+  isvfrq 10000 -        !!freq of writing out restart files
+  iunread -1 -          !!read restart file
+  iuncrd 21 -           !!write out coordinates
+  iunwri 22 -           !!write out restart file
+  firstt @temp -          !!initial temp
+  finalt @temp -          !!final temp
+  tstruc @temp -          !!temp at which starting structure has been equilibrated
+  tbath @temp -           !!temp of langevin bath
+  pconstant -           !! use constant pressure (pressure.doc recommendations)
+  pmass @pmass -         !! pressure "mass" 2p of mass or 400.0 amu
+  pref 1.0 -            !! pressure in atm
+  pgamma 20.0 -         !! pressure collision frequency
+  hoover -
+  reft @temp -
+  tmass 1000 -
+  ichecw 0 -            !!do not scale velocities to final temp (i.e. equilibrate)
+  ihtfrq 0 -            !!freq of heating
+  ieqfrq 0 -            !!freq of scaling/assigning velocity(X)
+  iasors 1 -            !!assign velocities during heating (0 will be scale velocities)
+  iasvel 1 -            !!using gaussian distribution to assign velocities
+  iscvel 0 -
+  inbfrq -1 -
+  ilbfrq 0 -
+  imgfrq -1 -
+  ntrfrq 500 -          
+  echeck -1             !!energy tolerance check before crashing
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Production Run !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+open unit 21 write unform name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.dcd
+open unit 22 write form name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.res
+
+open unit 23 read form name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_heat.res
+
+
+calc pmass = ?natom * 0.12
+dynamics cpt restart -
+  timestep 0.002 -      !!timestep interval
+  nstep  @nsteps -          !!no. of steps  (== 2 ns)
+  nprint 10000 -         !!freq of printout
+  iprfrq 10000 -         !!freq of calc avg/rms energy
+  nsavc 10000 -          !!freq of writing coordinates
+  isvfrq 10000 -        !!freq of writing out restart files
+  iunread 23 -          !!read restart file
+  iuncrd 21 -           !!write out coordinates
+  iunwri 22 -           !!write out restart file
+  firstt @temp -          !!initial temp
+  finalt @temp -          !!final temp
+  tstruc @temp -          !!temp at which starting structure has been equilibrated
+  tbath @temp -           !!temp of langevin bath
+  pconstant -           !! use constant pressure (pressure.doc recommendations)
+  pmass @pmass -         !! pressure "mass" 2p of mass or 400.0 amu
+  pref 1.0 -            !! pressure in atm
+  pgamma 20.0 -         !! pressure collision frequency
+  hoover -
+  reft @temp -
+  tmass 1000 -
+  ichecw 0 -            !!do not scale velocities to final temp (i.e. equilibrate)
+  ihtfrq 0 -            !!freq of heating
+  ieqfrq 0 -            !!freq of scaling/assigning velocity(X)
+  iasors 1 -            !!assign velocities during heating (0 will be scale velocities)
+  iasvel 1 -            !!using gaussian distribution to assign velocities
+  iscvel 0 -
+  inbfrq -1 -
+  ilbfrq 0 -
+  imgfrq -1 -
+  ntrfrq 500 -           
+  echeck -1             !!energy tolerance check before crashing
+
+
+
+
+
+
+
+!----------------------------------------------------------------------------
+! Write out structure after simulation
+!----------------------------------------------------------------------------
+
+NOE
+   RESET
+END
+cons harm clear
+
+write psf card name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.psf
+* after dynamics psf
+*
+
+write coor pdb card name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.pdb
+* after dynamics pdb
+*
+
+write coor card name dynamics-s1s@{sub1}.s2s@{sub2}/@{dtype}/s1s@{sub1}.s2s@{sub2}_prod.crd
+* after dynamics crd
+*
+
+
+stop
+

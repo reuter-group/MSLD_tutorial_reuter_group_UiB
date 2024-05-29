@@ -1,0 +1,25 @@
+#!/bin/bash
+
+export source=/net/orinoco/pga043/MSLD/bergen-4/2/ligands_prep
+export comboligs=/net/orinoco/pga043/MSLD/bergen-4/2/hne/book-ending/1mini/comboligs
+export rtfs=/net/orinoco/pga043/MSLD/bergen-4/2/ligands_prep
+
+
+## get original charges str files ###
+#bash 1-get_names.sh                 
+bash 2-get_ff_charges.sh            
+
+# check if everything is all right
+#bash 3-check_names_with_mol2.sh     
+bash 4-check_with_rtf.sh            
+
+## ************************************* ##
+
+##---------------------------------------------
+# get renormalized charges str files ##
+#bash 5-get_crn_charges_from_str.sh
+#bash 5-get_crn_str.sh
+
+#mkdir -p tmp
+#mv junk*.dat tmp/
+#mv pdb_mol2_*.dat tmp/
