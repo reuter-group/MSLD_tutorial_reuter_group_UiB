@@ -7,8 +7,8 @@
    [CHARMM program](https://charmm.chemistry.harvard.edu/request_license.php?version=free)  
    [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/)   
    PyMOL  
-   [MMTSB](https://github.com/mmtsb/toolset)
-   [LOMAP](https://github.com/OpenFreeEnergy/Lomap) -- optional  
+   [MMTSB](https://github.com/mmtsb/toolset)  
+   [LOMAP](https://github.com/OpenFreeEnergy/Lomap) -- Optional  
 
 4. **References literature**
    - [&lambda;D original paper](https://doi.org/10.1063/1.472109)
