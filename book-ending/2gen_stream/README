@@ -1,5 +1,11 @@
 #!/bin/bash
 
+python get_ff_charges_v01.py rtf1 rtf2
+
+## Update: 15 January 2025 ------>> not required below this line ---------
+##---------------------------------------------
+
+
 export source=/net/orinoco/pga043/MSLD/bergen-4/3/ligands_prep
 export comboligs=/net/orinoco/pga043/MSLD/bergen-4/3/hne/book-ending/1mini/comboligs
 export rtfs=/net/orinoco/pga043/MSLD/bergen-4/3/ligands_prep
