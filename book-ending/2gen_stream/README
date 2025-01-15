@@ -1,20 +1,36 @@
 #!/bin/bash
 
-export source=/net/orinoco/pga043/MSLD/bergen-4/2/ligands_prep
-export comboligs=/net/orinoco/pga043/MSLD/bergen-4/2/hne/book-ending/1mini/comboligs
-export rtfs=/net/orinoco/pga043/MSLD/bergen-4/2/ligands_prep
+export source=/net/orinoco/pga043/MSLD/bergen-4/3/ligands_prep
+export comboligs=/net/orinoco/pga043/MSLD/bergen-4/3/hne/book-ending/1mini/comboligs
+export rtfs=/net/orinoco/pga043/MSLD/bergen-4/3/ligands_prep
 
 
 ## get original charges str files ###
-#bash 1-get_names.sh                 
-bash 2-get_ff_charges.sh            
+##------ step 1 ------
+#bash 1-get_names.sh 
+
+##------ step 2 ------                
+#bash 2-get_ff_charges.sh            
 
 # check if everything is all right
+##-------- step 3 ----------
 #bash 3-check_names_with_mol2.sh     
-bash 4-check_with_rtf.sh            
 
-## ************************************* ##
+##---------step 4 -------------
+#bash 4-check_with_rtf.sh            
 
+# cp ../1mini/comboligs/*.str
+
+## how to use these 4 steps:
+## run step 1 and 2.
+## run step 3 and if there are output files from this step then check that the atom names from \
+## original mol2 files and pdb files(1mini/comboligs) are aligned correctly (use pymol to visualize them).
+## correct these names in the outputs (*.dat) from step 2.
+## re-run step 2 and 3 and if there is no output from step 3 then we are finished.
+## step 4 is just another check and not necessary.
+
+
+## Update: 12 July 2024 ------>> not required below this line ---------
 ##---------------------------------------------
 # get renormalized charges str files ##
 #bash 5-get_crn_charges_from_str.sh
