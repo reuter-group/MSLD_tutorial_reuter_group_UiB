@@ -25,6 +25,7 @@
    - [MBAR](https://arxiv.org/abs/1704.00891)
    - [charge changing mutations](https://pubs.acs.org/doi/10.1021/ct900565e)
    - [charge changing mutations FEP+](https://doi.org/10.1016%2Fj.jmb.2019.02.003)
+   - [non-linear ALF](https://doi.org/10.1021/acs.jctc.4c00514)
 
 5. **Github Resources**
    - [ALF](https://github.com/RyanLeeHayes/ALF)
