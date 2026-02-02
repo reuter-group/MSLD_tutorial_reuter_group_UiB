@@ -34,6 +34,10 @@
    - [protein ligand benchmark datasets](https://github.com/openforcefield/protein-ligand-benchmark)
    - [protein tutorial](http://pmx.mpibpc.mpg.de/summerSchool2020_tutorial1/index.html)
    - [precomputed mutation free energies](http://pmx.mpibpc.mpg.de/tripeptide.html)
+  
+6. **Talks and Videos from Biovia**
+   - [Prabhu Raman at Alchemistry Workshop 2020](https://www.youtube.com/watch?v=8cJrDYMvjKY)
+   - [Biovia promotional video](https://www.youtube.com/watch?v=4dqHlZcy7Gg)
 
    
  ## Compiling CHARMM ##
